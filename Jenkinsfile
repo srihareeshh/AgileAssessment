@@ -8,24 +8,18 @@ pipeline {
         }
         stage('Parallel Checks') {
             parallel {
-                stage('Frontend Check') {
+                stage('Frontend Execution') {
                     steps {
                         bat 'python frontend_check.py'
-                    }
-                }
-                stage('Archive Report') {
-                    steps {
                         archiveArtifacts artifacts: 'frontend_report.txt', fingerprint: true
                     }
-                stage('Backend Check') {
+                }
+                stage('Backend Execution') {
                     steps {
                         bat 'python backend_check.py'
-                    }
-                }
-                stage('Archive Report') {
-                    steps {
                         archiveArtifacts artifacts: 'backend_report.txt', fingerprint: true
                     }
+                }
             }
         }
         stage('Summary') {
